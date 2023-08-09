@@ -13,7 +13,6 @@ import { OrderEntity } from './order.entity';
 import { BidEntity } from './bid.entity';
 
 export enum UserRole {
-  ADMIN = 'admin',
   COMPANY = 'company',
   LAWYER = 'lawyer',
 }
@@ -34,7 +33,7 @@ export class UserEntity extends Base {
 
   @Column({
     name: 'role',
-    type: 'enum',
+    type: 'text',
     enum: UserRole,
     default: UserRole.COMPANY,
   })
