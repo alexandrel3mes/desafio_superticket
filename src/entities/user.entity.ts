@@ -15,6 +15,7 @@ import { BidEntity } from './bid.entity';
 export enum UserRole {
   COMPANY = 'company',
   LAWYER = 'lawyer',
+  ADMIN = 'admin',
 }
 
 @Entity({ name: 'users' })

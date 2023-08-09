@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
+import { ActivitiesModule } from './modules/activities/activities.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsersModule } from './modules/users/users.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
     UsersModule,
+    ActivitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
