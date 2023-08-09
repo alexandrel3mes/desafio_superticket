@@ -9,7 +9,7 @@ export enum BidStatus {
   DENIED = 'denied',
 }
 
-@Entity({ name: 'bid' })
+@Entity({ name: 'bids' })
 export class BidEntity extends Base {
   @ManyToOne(() => OrderEntity, (order) => order.bids)
   @JoinColumn({ name: 'order_id' })
