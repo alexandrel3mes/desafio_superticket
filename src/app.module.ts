@@ -11,9 +11,10 @@ import { ActivitiesModule } from './modules/activities/activities.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'super.db',
+      database: 'super.sqlite',
       autoLoadEntities: true,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
     }),
     UsersModule,
     ActivitiesModule,

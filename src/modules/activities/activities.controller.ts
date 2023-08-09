@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
-import { UpdateActivityDto } from './dto/update-activity.dto';
+import { FindByIdDto } from 'src/global-dtos/find-by-id.dto';
 
 @Controller('activities')
 export class ActivitiesController {
@@ -18,13 +26,16 @@ export class ActivitiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.activitiesService.findOne(+id);
+  findOne(@Param() params: FindByIdDto) {
+    return this.activitiesService.findOne(+params.id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateActivityDto: UpdateActivityDto) {
-    return this.activitiesService.update(+id, updateActivityDto);
+  update(
+    @Param() params: FindByIdDto,
+    @Body() updateActivityDto: CreateActivityDto,
+  ) {
+    return this.activitiesService.update(+params.id, updateActivityDto);
   }
 
   @Delete(':id')

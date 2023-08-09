@@ -1,1 +1,6 @@
-export class CreateActivityDto {}
+import { IsString } from 'class-validator';
+
+export class CreateActivityDto {
+  @IsString()
+  name: string;
+}
