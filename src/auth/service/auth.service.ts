@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -13,6 +18,8 @@ export class AuthService {
   ) {}
 
   async signup(user: CreateUserDto): Promise<UserEntity> {
+    await this.existsData(user);
+
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(user.password, salt);
     user.password = hash;
@@ -33,5 +40,18 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     throw new UnauthorizedException();
+  }
+
+  async existsData(user: CreateUserDto): Promise<void> {
+    const found = await this.userRepository.findOne({
+      where: [
+        { email: user.email },
+        { document: user.document },
+        { phone: user.phone },
+      ],
+    });
+
+    if (found)
+      throw new HttpException('Dados já utilizados', HttpStatus.UNAUTHORIZED);
   }
 }
