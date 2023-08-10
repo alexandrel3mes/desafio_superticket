@@ -31,8 +31,8 @@ export class OrdersService {
     return this.orderRepository.find();
   }
 
-  findOne(id: number) {
-    return this.orderRepository.findOneBy({ id });
+  async findOne(id: number) {
+    return this.orderRepository.findOneOrFail({ where: { id } });
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {

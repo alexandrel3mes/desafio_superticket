@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
@@ -15,6 +16,7 @@ import { BidsService } from '../bids/bids.service';
 import { CreateBidDto } from '../bids/dto/create-bid.dto';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
 import { UpdateBidLawyer } from './dto/update-bid-lawyer.dto';
+import { OrdersService } from '../orders/orders.service';
 
 @Roles(UserRole.LAWYER)
 @UseGuards(RoleGuard)
@@ -23,7 +25,18 @@ export class LawyersController {
   constructor(
     private readonly lawyersService: LawyersService,
     private readonly bidsService: BidsService,
+    private readonly orderService: OrdersService,
   ) {}
+
+  @Get('order')
+  list() {
+    return this.orderService.findAll();
+  }
+
+  @Get('order/:id')
+  show(@Param() params: FindByIdDto) {
+    return this.orderService.findOne(params.id);
+  }
 
   @Post('bid')
   create(@Req() req: any, @Body() createBidDto: CreateBidDto) {
