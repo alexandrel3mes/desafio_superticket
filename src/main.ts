@@ -1,7 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerDocumentOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
+import { CompanyModule } from './modules/company/company.module';
+import { ActivitiesModule } from './modules/activities/activities.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { LawyersModule } from './modules/lawyers/lawyers.module';
+import { UsersModule } from './modules/users/users.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,8 +24,26 @@ async function bootstrap() {
     .setTitle('Seu Direito API')
     .setDescription('API para criar e gerir ordens de serviço')
     .setVersion('1.0')
+    .addTag('Usuário')
+    .addTag('Company - Empresa')
+    .addTag('Lawyer - Advogado')
+    .addTag('Activity - Ramo de atividades')
+    .addBearerAuth()
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+
+  const options: SwaggerDocumentOptions = {
+    include: [
+      CompanyModule,
+      ActivitiesModule,
+      AuthModule,
+      LawyersModule,
+      UsersModule,
+    ],
+    ignoreGlobalPrefix: true,
+    deepScanRoutes: true,
+  };
+
+  const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
 
   await app.listen(parseInt(process.env.PORT, 10) || 3000);
