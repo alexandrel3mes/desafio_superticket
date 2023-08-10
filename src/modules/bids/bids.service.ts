@@ -45,7 +45,7 @@ export class BidsService {
   }
 
   findOne(id: number) {
-    return this.bidRepository.findOne({
+    return this.bidRepository.findOneOrFail({
       where: { id },
       relations: {
         order: true,
@@ -62,7 +62,7 @@ export class BidsService {
   async acceptedBid(bid_id: number) {
     const bid = await this.findOne(bid_id);
     await this.orderRepository.update(
-      { id: bid.order.id, lawyer: null },
+      { id: bid.order.id },
       { lawyer: bid.lawyer, value: bid.value, status: OrderStatus.IN_PROGRESS },
     );
   }

@@ -1,6 +1,7 @@
+import { IsEnum } from 'class-validator';
 import { BidStatus } from 'src/entities/bid.entity';
 
 export class PatchBidDto {
-  bid_id: number;
+  @IsEnum(BidStatus)
   action: BidStatus;
 }

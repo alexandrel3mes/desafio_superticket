@@ -1,4 +1,13 @@
-import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { OrdersService } from '../orders/orders.service';
 import { CreateOrderDto } from '../orders/dto/create-order.dto';
@@ -8,6 +17,7 @@ import { BidStatus } from 'src/entities/bid.entity';
 import { RoleGuard } from '../auth/role/role.guard';
 import { UserRole } from 'src/entities/user.entity';
 import { Roles } from 'src/decorators/roles.decorator';
+import { FindByIdDto } from 'src/types/find-by-id.dto';
 
 @Roles(UserRole.COMPANY)
 @UseGuards(RoleGuard)
@@ -19,17 +29,33 @@ export class CompanyController {
     private readonly bidService: BidsService,
   ) {}
 
+  @Get('order')
+  list() {
+    return this.orderService.findAll();
+  }
+
+  @Get('order/:id')
+  show(@Param() params: FindByIdDto) {
+    return this.orderService.findOne(params.id);
+  }
+
   @Post('order')
   createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto, req.user);
   }
 
-  @Patch('bid')
-  async acceptBid(@Req() req: any, @Body() dto: PatchBidDto) {
+  @Patch('bid/:id')
+  async acceptOrDenyBid(
+    @Param() params: FindByIdDto,
+    @Req() req: any,
+    @Body() dto: PatchBidDto,
+  ) {
+    await this.companyService.checkBidBeforePatch(req.user, params.id);
+
     if (dto.action === BidStatus.ACCEPTED) {
-      await this.bidService.acceptedBid(dto.bid_id);
+      await this.bidService.acceptedBid(params.id);
     }
 
-    return this.bidService.update(dto.bid_id, { status: dto.action });
+    return this.bidService.update(params.id, { status: dto.action });
   }
 }
