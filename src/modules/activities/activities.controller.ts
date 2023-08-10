@@ -20,7 +20,6 @@ export class ActivitiesController {
     return this.activitiesService.create(createActivityDto);
   }
 
-  // @UseGuards(LocalAuthGuard)
   @Get()
   findAll() {
     return this.activitiesService.findAll();
