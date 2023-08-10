@@ -8,6 +8,7 @@ import { ActivitiesModule } from './modules/activities/activities.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { BidsModule } from './modules/bids/bids.module';
+import { CompanyModule } from './modules/company/company.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BidsModule } from './modules/bids/bids.module';
     AuthModule,
     OrdersModule,
     BidsModule,
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

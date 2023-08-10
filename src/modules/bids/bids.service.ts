@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { BidEntity, BidStatus } from 'src/entities/bid.entity';
-import { OrderEntity } from 'src/entities/order.entity';
+import { OrderEntity, OrderStatus } from 'src/entities/order.entity';
 
 @Injectable()
 export class BidsService {
@@ -39,11 +39,25 @@ export class BidsService {
   }
 
   findOne(id: number) {
-    return this.bidRepository.findOneBy({ id });
+    return this.bidRepository.findOne({
+      where: { id },
+      relations: {
+        order: true,
+        lawyer: true,
+      },
+    });
   }
 
   async update(id: number, updateBidDto: UpdateBidDto) {
     await this.bidRepository.update(id, updateBidDto);
     return this.findOne(id);
+  }
+
+  async acceptedBid(bid_id: number) {
+    const bid = await this.findOne(bid_id);
+    await this.orderRepository.update(
+      { id: bid.order.id, lawyer: null },
+      { lawyer: bid.lawyer, value: bid.value, status: OrderStatus.IN_PROGRESS },
+    );
   }
 }
