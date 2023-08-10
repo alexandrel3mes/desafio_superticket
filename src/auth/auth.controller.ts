@@ -5,16 +5,16 @@ import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
 
 @Controller('')
 export class AuthController {
-  constructor(private usersService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   @Post('register')
   async register(@Body() user: CreateUserDto): Promise<UserEntity> {
-    return this.usersService.signup(user);
+    return this.authService.signup(user);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
-    return this.usersService.validateUser(signInDto.email, signInDto.password);
+    return this.authService.validateUser(signInDto.email, signInDto.password);
   }
 }
