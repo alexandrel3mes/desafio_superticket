@@ -20,16 +20,13 @@ export class ActivitiesService {
   }
 
   async findOne(id: number) {
-    const activity = await this.activityRepository.findBy({ id });
+    const activity = await this.activityRepository.findOneBy({ id });
     if (!activity) return false;
     return activity;
   }
 
-  update(id: number, updateActivityDto: UpdateActivityDto) {
-    return this.activityRepository.update(id, updateActivityDto);
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} activity`;
+  async update(id: number, updateActivityDto: UpdateActivityDto) {
+    await this.activityRepository.update(id, updateActivityDto);
+    return this.findOne(id);
   }
 }
