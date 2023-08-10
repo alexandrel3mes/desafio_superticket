@@ -1,12 +1,4 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
-import bcrypt from 'bcrypt';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Base } from './base.entity';
 import { ActivityEntity } from './activity.entity';
 import { OrderEntity } from './order.entity';
@@ -57,9 +49,4 @@ export class UserEntity extends Base {
 
   @OneToMany(() => BidEntity, (bid) => bid.lawyer)
   bids: BidEntity[];
-
-  @BeforeInsert()
-  hashPassword(): void {
-    this.password = bcrypt.hashSync(this.password, 10);
-  }
 }
