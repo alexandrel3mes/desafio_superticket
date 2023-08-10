@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RoleGuard } from '../auth/role/role.guard';
+import { UserRole } from 'src/entities/user.entity';
 
 @Controller('activities')
 export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {}
 
   @Post()
+  @Roles(UserRole.ADMIN)
+  @UseGuards(RoleGuard)
   create(@Body() createActivityDto: CreateActivityDto) {
     return this.activitiesService.create(createActivityDto);
   }
