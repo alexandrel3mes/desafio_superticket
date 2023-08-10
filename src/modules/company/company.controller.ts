@@ -1,11 +1,16 @@
-import { Body, Controller, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { OrdersService } from '../orders/orders.service';
 import { CreateOrderDto } from '../orders/dto/create-order.dto';
 import { BidsService } from '../bids/bids.service';
 import { PatchBidDto } from './dto/patcht-bid.dto';
 import { BidStatus } from 'src/entities/bid.entity';
+import { RoleGuard } from '../auth/role/role.guard';
+import { UserRole } from 'src/entities/user.entity';
+import { Roles } from 'src/decorators/roles.decorator';
 
+@Roles(UserRole.COMPANY)
+@UseGuards(RoleGuard)
 @Controller('company')
 export class CompanyController {
   constructor(
