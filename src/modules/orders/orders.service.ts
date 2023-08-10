@@ -32,7 +32,14 @@ export class OrdersService {
   }
 
   async findOne(id: number) {
-    return this.orderRepository.findOneOrFail({ where: { id } });
+    return this.orderRepository.findOneOrFail({
+      where: { id },
+      relations: {
+        lawyer: true,
+        company: true,
+        bids: true,
+      },
+    });
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
