@@ -43,6 +43,10 @@ export class OrdersService {
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
+    if (Object.keys(updateOrderDto).length === 0) {
+      return true;
+    }
+
     await this.orderRepository.update(id, updateOrderDto);
     return this.findOne(id);
   }

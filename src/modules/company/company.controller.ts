@@ -18,6 +18,8 @@ import { RoleGuard } from '../auth/role/role.guard';
 import { UserRole } from 'src/entities/user.entity';
 import { Roles } from 'src/decorators/roles.decorator';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
+import { OrderStatus } from 'src/entities/order.entity';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Roles(UserRole.COMPANY)
 @UseGuards(RoleGuard)
@@ -42,6 +44,29 @@ export class CompanyController {
   @Post('order')
   createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto, req.user);
+  }
+
+  @Patch('order/:id')
+  async edit(
+    @Param() params: FindByIdDto,
+    @Req() req: any,
+    @Body() dto: UpdateOrderDto,
+  ) {
+    await this.companyService.checkOrderBeforePatch(
+      req.user,
+      params.id,
+      null,
+      true,
+    );
+    return this.orderService.update(params.id, dto);
+  }
+
+  @Patch('finish_order/:id')
+  async finish(@Param() params: FindByIdDto, @Req() req: any) {
+    await this.companyService.checkOrderBeforePatch(req.user, params.id, true);
+    return this.orderService.update(params.id, {
+      status: OrderStatus.FINISHED,
+    });
   }
 
   @Patch('bid/:id')
