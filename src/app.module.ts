@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { BidsModule } from './modules/bids/bids.module';
 import { CompanyModule } from './modules/company/company.module';
+import { LawyersModule } from './modules/lawyers/lawyers.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CompanyModule } from './modules/company/company.module';
     OrdersModule,
     BidsModule,
     CompanyModule,
+    LawyersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

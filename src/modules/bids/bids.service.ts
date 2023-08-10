@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBidDto } from './dto/create-bid.dto';
 import { UpdateBidDto } from './dto/update-bid.dto';
 import { ReqUser } from 'src/types/req.user.interface';
@@ -21,9 +21,15 @@ export class BidsService {
 
   async create(createBidDto: CreateBidDto, reqUser: ReqUser) {
     const user = await this.userRepository.findOneBy({ id: reqUser.user });
-    const order = await this.orderRepository.findOneBy({
-      id: createBidDto.order_id,
+    const order = await this.orderRepository.findOne({
+      where: { id: createBidDto.order_id, status: OrderStatus.CREATED },
     });
+
+    if (!order)
+      throw new HttpException(
+        'Apenas ordens iniciais podem receber uma oferta',
+        HttpStatus.BAD_REQUEST,
+      );
 
     const bid = new BidEntity();
     bid.order = order;

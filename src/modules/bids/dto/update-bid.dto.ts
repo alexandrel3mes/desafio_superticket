@@ -6,5 +6,5 @@ import { IsEnum, IsOptional } from 'class-validator';
 export class UpdateBidDto extends PartialType(CreateBidDto) {
   @IsOptional()
   @IsEnum(BidStatus)
-  status: BidStatus;
+  status?: BidStatus;
 }
