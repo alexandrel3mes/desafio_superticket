@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { OrderEntity, OrderStatus } from 'src/entities/order.entity';
+import { ReqUser } from 'src/types/req.user.interface';
 
 @Injectable()
 export class OrdersService {
@@ -15,7 +16,7 @@ export class OrdersService {
     private orderRepository: Repository<OrderEntity>,
   ) {}
 
-  async create(createOrderDto: CreateOrderDto, reqUser: any) {
+  async create(createOrderDto: CreateOrderDto, reqUser: ReqUser) {
     const user = await this.userRepository.findOneBy({ id: reqUser.user });
     const order = new OrderEntity();
 

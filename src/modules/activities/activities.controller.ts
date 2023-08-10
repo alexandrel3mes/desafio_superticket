@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
-import { FindByIdDto } from 'src/global-dtos/find-by-id.dto';
+import { FindByIdDto } from 'src/types/find-by-id.dto';
 
 @Controller('activities')
 export class ActivitiesController {
