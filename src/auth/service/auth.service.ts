@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { UserEntity, UserRole } from 'src/entities/user.entity';
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
 import { ActivityEntity } from 'src/entities/activity.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
     private userRepository: Repository<UserEntity>,
     @InjectRepository(ActivityEntity)
     private activityRepository: Repository<ActivityEntity>,
+    private jwtService: JwtService,
   ) {}
 
   async signup(user: CreateUserDto): Promise<UserEntity> {
@@ -54,15 +56,20 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<any> {
     const foundUser = await this.userRepository.findOneBy({ email });
     if (foundUser) {
-      if (bcrypt.compareSync(password, foundUser.password)) {
-        return {
-          email: foundUser.email,
-          id: foundUser.id,
-          role: foundUser.role,
-        };
+      if (!bcrypt.compareSync(password, foundUser.password)) {
+        throw new UnauthorizedException();
       }
+      const payload = {
+        user: foundUser.id,
+        email: foundUser.email,
+        role: foundUser.role,
+      };
 
-      throw new UnauthorizedException();
+      return {
+        access_token: await this.jwtService.signAsync(payload, {
+          secret: process.env.SECRET,
+        }),
+      };
     }
     throw new UnauthorizedException();
   }

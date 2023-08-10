@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { UserEntity } from 'src/entities/user.entity';
 import { ActivityEntity } from 'src/entities/activity.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
@@ -16,7 +18,13 @@ import { ActivityEntity } from 'src/entities/activity.entity';
     }),
     TypeOrmModule.forFeature([UserEntity, ActivityEntity]),
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
   controllers: [AuthController],
   exports: [AuthService],
 })
