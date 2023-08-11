@@ -1,10 +1,16 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetOrdersReponse } from './api-response/get-orders.response.dto';
 import { GetOrderReponse } from './api-response/get-order.response.dto';
 
+@ApiBearerAuth()
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
