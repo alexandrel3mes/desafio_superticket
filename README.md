@@ -109,5 +109,4 @@ URL_API:PORT/api
 
 ## 🚀 Deploy
 
-- [Server Deploy](https://seu-direito.onrender.com)
-- [Documentation (Swagger)](https://seu-direito.onrender.com/api)
+- [Server Deploy (Swagger)](https://seu-direito.onrender.com/api)
