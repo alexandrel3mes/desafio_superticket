@@ -17,7 +17,9 @@ import { CreateBidDto } from '../bids/dto/create-bid.dto';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
 import { UpdateBidLawyer } from './dto/update-bid-lawyer.dto';
 import { OrdersService } from '../orders/orders.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Lawyer - Advogado')
 @Roles(UserRole.LAWYER)
 @UseGuards(RoleGuard)
 @Controller('lawyers')

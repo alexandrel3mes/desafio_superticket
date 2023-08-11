@@ -20,7 +20,9 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
 import { OrderStatus } from 'src/entities/order.entity';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Company - Empresa')
 @Roles(UserRole.COMPANY)
 @UseGuards(RoleGuard)
 @Controller('company')
