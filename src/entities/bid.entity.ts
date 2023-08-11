@@ -24,7 +24,7 @@ export class BidEntity extends Base {
 
   @Column({
     name: 'status',
-    type: 'enum',
+    type: 'text',
     enum: BidStatus,
     default: BidStatus.CREATED,
   })
