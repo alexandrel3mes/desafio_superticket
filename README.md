@@ -7,12 +7,10 @@ Venha ver como funciona!
 
 ## 📖 Instalação
 
-- Navegue à pasta raiz do projeto e instale as dependências via yarn. Em seguida rode o build do projeto.
+- Navegue à pasta raiz do projeto e instale as dependências via yarn.
 
 ```bash
   yarn
-  
-  yarn build
 ```
 
 ## 🔑 Variáveis de ambiente
