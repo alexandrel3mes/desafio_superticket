@@ -26,7 +26,7 @@ export class OrderEntity extends Base {
 
   @Column({
     name: 'status',
-    type: 'enum',
+    type: 'text',
     enum: OrderStatus,
     default: OrderStatus.CREATED,
   })
