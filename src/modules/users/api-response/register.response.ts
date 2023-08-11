@@ -1,35 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BidStatus } from 'src/entities/bid.entity';
-import { OrderStatus } from 'src/entities/order.entity';
 import { UserRole } from 'src/entities/user.entity';
 import { ActivityResponse } from 'src/modules/activities/api-response/activity.response';
-
-export class OrderResponse {
-  @ApiProperty({
-    example: 1,
-    description: 'Id da ordem de serviço',
-  })
-  id: number;
-
-  @ApiProperty({
-    example: 'Motivos pessoais',
-    description: 'Descrição da ordem de serviço',
-  })
-  description: number;
-
-  @ApiProperty({
-    example: OrderStatus.CREATED,
-    enum: OrderStatus,
-    description: 'Status da ordem de serviço',
-  })
-  status: OrderStatus;
-
-  @ApiProperty({
-    example: 10000,
-    description: 'Valor do pagamento da ordem de serviço (salvo em centavos)',
-  })
-  value: number;
-}
+import { GetOrdersReponse } from 'src/modules/orders/api-response/get-orders.response.dto';
 
 export class BidResponse {
   @ApiProperty({
@@ -98,18 +71,18 @@ export class MeResponse {
   activity: ActivityResponse;
 
   @ApiProperty({
-    type: OrderResponse,
+    type: GetOrdersReponse,
     isArray: true,
     description: 'Ordens de serviço do usuário como empresa',
   })
-  companyOrders: OrderResponse[];
+  companyOrders: GetOrdersReponse[];
 
   @ApiProperty({
-    type: OrderResponse,
+    type: GetOrdersReponse,
     isArray: true,
     description: 'Ordens de serviço do usuário como advogado',
   })
-  lawyerOrders: OrderResponse[];
+  lawyerOrders: GetOrdersReponse[];
 
   @ApiProperty({
     type: BidResponse,

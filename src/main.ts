@@ -11,6 +11,7 @@ import { ActivitiesModule } from './modules/activities/activities.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { LawyersModule } from './modules/lawyers/lawyers.module';
 import { UsersModule } from './modules/users/users.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +29,7 @@ async function bootstrap() {
     .addTag('Company - Empresa')
     .addTag('Lawyer - Advogado')
     .addTag('Activity - Ramo de atividades')
+    .addTag('Orders - Ordem de serviço')
     .addBearerAuth()
     .build();
 
@@ -38,6 +40,7 @@ async function bootstrap() {
       AuthModule,
       LawyersModule,
       UsersModule,
+      OrdersModule,
     ],
     ignoreGlobalPrefix: true,
     deepScanRoutes: true,
