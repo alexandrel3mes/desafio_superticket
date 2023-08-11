@@ -47,7 +47,7 @@ export class RegisterResponse {
   role: string;
 
   @ApiProperty({
-    example: '0485556955',
+    example: '92820982069',
     description: 'CPF ou CNPJ do usuário criado',
   })
   document: string;

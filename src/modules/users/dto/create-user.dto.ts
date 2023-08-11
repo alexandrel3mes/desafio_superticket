@@ -52,7 +52,7 @@ export class CreateUserDto {
   role: UserRole;
 
   @ApiProperty({
-    example: '0485556955',
+    example: '92820982069',
     description: 'CPF ou CNPJ do usuário',
   })
   @Validate(DocumentValidator)
