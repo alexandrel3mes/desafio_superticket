@@ -1,29 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BidStatus } from 'src/entities/bid.entity';
 import { UserRole } from 'src/entities/user.entity';
 import { ActivityResponse } from 'src/modules/activities/api-response/activity.response';
+import { BidResponse } from 'src/modules/bids/api-response/get-bid.response';
 import { GetOrdersReponse } from 'src/modules/orders/api-response/get-orders.response.dto';
-
-export class BidResponse {
-  @ApiProperty({
-    example: 1,
-    description: 'Id da ordem de serviço',
-  })
-  id: number;
-
-  @ApiProperty({
-    example: BidStatus.CREATED,
-    enum: BidStatus,
-    description: 'Status da ordem de serviço',
-  })
-  status: BidStatus;
-
-  @ApiProperty({
-    example: 10000,
-    description: 'Valor da oferta da ordem de serviço (salvo em centavos)',
-  })
-  value: number;
-}
 
 export class MeResponse {
   @ApiProperty({

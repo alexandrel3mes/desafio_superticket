@@ -40,6 +40,10 @@ export class BidsService {
     return this.bidRepository.save(bid);
   }
 
+  findYours(reqUser: ReqUser) {
+    return this.bidRepository.find({ where: { lawyer: { id: reqUser.user } } });
+  }
+
   findAll() {
     return this.bidRepository.find();
   }
