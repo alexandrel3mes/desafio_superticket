@@ -28,8 +28,6 @@ import { BidResponse } from '../bids/api-response/get-bid.response';
 
 @ApiBearerAuth()
 @ApiTags('Lawyer - Advogado')
-@Roles(UserRole.LAWYER)
-@UseGuards(RoleGuard)
 @Controller('lawyers')
 export class LawyersController {
   constructor(
@@ -48,6 +46,8 @@ export class LawyersController {
     isArray: true,
     type: GetOrdersReponse,
   })
+  @Roles(UserRole.LAWYER)
+  @UseGuards(RoleGuard)
   @Get('order')
   list(@Req() req: any) {
     return this.orderService.findYours(req.user);
@@ -62,6 +62,8 @@ export class LawyersController {
     isArray: true,
     type: BidResponse,
   })
+  @Roles(UserRole.LAWYER)
+  @UseGuards(RoleGuard)
   @Get('bid')
   listBids(@Req() req: any) {
     return this.bidsService.findYours(req.user);
@@ -79,6 +81,8 @@ export class LawyersController {
     status: 400,
     description: 'Apenas ordens iniciais podem receber uma oferta.',
   })
+  @Roles(UserRole.LAWYER)
+  @UseGuards(RoleGuard)
   @Post('bid')
   create(@Req() req: any, @Body() createBidDto: CreateBidDto) {
     return this.bidsService.create(createBidDto, req.user);
@@ -92,6 +96,8 @@ export class LawyersController {
     description: 'Oferta editada',
     type: BidResponse,
   })
+  @Roles(UserRole.LAWYER)
+  @UseGuards(RoleGuard)
   @Patch('bid/:id')
   @ApiResponse({
     status: 400,

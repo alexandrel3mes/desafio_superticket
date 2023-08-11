@@ -35,8 +35,6 @@ import { BidResponse } from '../bids/api-response/get-bid.response';
 
 @ApiBearerAuth()
 @ApiTags('Company - Empresa')
-@Roles(UserRole.COMPANY)
-@UseGuards(RoleGuard)
 @Controller('company')
 export class CompanyController {
   constructor(
@@ -55,6 +53,8 @@ export class CompanyController {
     isArray: true,
     type: GetOrdersReponse,
   })
+  @UseGuards(RoleGuard)
+  @Roles(UserRole.COMPANY)
   @Get('order')
   list(@Req() req: any) {
     return this.orderService.findYours(req.user);
@@ -68,6 +68,8 @@ export class CompanyController {
     description: 'Ordem criada',
     type: CreateOrderReponse,
   })
+  @UseGuards(RoleGuard)
+  @Roles(UserRole.COMPANY)
   @Post('order')
   createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto, req.user);
@@ -85,6 +87,8 @@ export class CompanyController {
     status: 400,
     description: 'Só é possível editar suas próprias ordens de serviço.',
   })
+  @UseGuards(RoleGuard)
+  @Roles(UserRole.COMPANY)
   @Patch('order/:id')
   async edit(
     @Param() params: FindByIdDto,
@@ -112,6 +116,8 @@ export class CompanyController {
     status: 400,
     description: 'Só é possível finalizar ordens com status em progresso.',
   })
+  @UseGuards(RoleGuard)
+  @Roles(UserRole.COMPANY)
   @Patch('finish_order/:id')
   async finish(@Param() params: FindByIdDto, @Req() req: any) {
     await this.companyService.checkOrderBeforePatch(req.user, params.id, true);
@@ -133,6 +139,8 @@ export class CompanyController {
     description:
       'Só é possível aceitar ou negar ofertas de suas próprias ordens de serviço.',
   })
+  @UseGuards(RoleGuard)
+  @Roles(UserRole.COMPANY)
   @Patch('bid/:id')
   async acceptOrDenyBid(
     @Param() params: FindByIdDto,
