@@ -14,7 +14,12 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
 import { UserRole } from 'src/entities/user.entity';
 import { Public } from 'src/decorators/public.decorator';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ActivityResponse } from './api-response/activity.response';
 
 @ApiTags('Activity - Ramo de atividades')
@@ -23,6 +28,7 @@ export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Rota para criar um ramo de atividades - Exclusivo admin',
   })
@@ -69,6 +75,7 @@ export class ActivitiesController {
   @ApiOperation({
     summary: 'Rota para editar um ramo de atividades - Exclusivo admin',
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'Ramo de atividade editado',
