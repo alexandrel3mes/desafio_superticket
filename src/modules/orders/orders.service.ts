@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/entities/user.entity';
+import { UserEntity, UserRole } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { OrderEntity, OrderStatus } from 'src/entities/order.entity';
 import { ReqUser } from 'src/types/req.user.interface';
@@ -29,6 +29,12 @@ export class OrdersService {
 
   findAll() {
     return this.orderRepository.find();
+  }
+
+  findYours(reqUser: ReqUser) {
+    return reqUser.role === UserRole.COMPANY
+      ? this.orderRepository.find({ where: { company: { id: reqUser.user } } })
+      : this.orderRepository.find({ where: { lawyer: { id: reqUser.user } } });
   }
 
   async findOne(id: number) {

@@ -31,13 +31,8 @@ export class LawyersController {
   ) {}
 
   @Get('order')
-  list() {
-    return this.orderService.findAll();
-  }
-
-  @Get('order/:id')
-  show(@Param() params: FindByIdDto) {
-    return this.orderService.findOne(params.id);
+  list(@Req() req: any) {
+    return this.orderService.findYours(req.user);
   }
 
   @Post('bid')
