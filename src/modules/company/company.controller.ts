@@ -20,8 +20,15 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
 import { OrderStatus } from 'src/entities/order.entity';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { GetOrdersReponse } from '../orders/api-response/get-orders.response.dto';
 
+@ApiBearerAuth()
 @ApiTags('Company - Empresa')
 @Roles(UserRole.COMPANY)
 @UseGuards(RoleGuard)
@@ -33,6 +40,16 @@ export class CompanyController {
     private readonly bidService: BidsService,
   ) {}
 
+  @ApiOperation({
+    summary:
+      'Rota para listar todas ordens de serviço relacionadas ao seu usuário',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Todas suas ordens de serviço',
+    isArray: true,
+    type: GetOrdersReponse,
+  })
   @Get('order')
   list(@Req() req: any) {
     return this.orderService.findYours(req.user);

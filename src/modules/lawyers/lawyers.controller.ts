@@ -17,10 +17,16 @@ import { CreateBidDto } from '../bids/dto/create-bid.dto';
 import { FindByIdDto } from 'src/types/find-by-id.dto';
 import { UpdateBidLawyer } from './dto/update-bid-lawyer.dto';
 import { OrdersService } from '../orders/orders.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetOrdersReponse } from '../orders/api-response/get-orders.response.dto';
 import { BidResponse } from '../bids/api-response/get-bid.response';
 
+@ApiBearerAuth()
 @ApiTags('Lawyer - Advogado')
 @Roles(UserRole.LAWYER)
 @UseGuards(RoleGuard)
