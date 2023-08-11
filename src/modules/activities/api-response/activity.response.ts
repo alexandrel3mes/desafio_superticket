@@ -1,11 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
 
-export class CreateActivityDto {
+export class ActivityResponse {
+  @ApiProperty({
+    example: 1,
+    description: 'Id do ramo de atividades',
+  })
+  id: number;
+
   @ApiProperty({
     example: 'Comércio',
     description: 'Nome do ramo de atividades',
   })
-  @IsString()
   name: string;
 }

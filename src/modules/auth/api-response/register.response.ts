@@ -1,19 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from 'src/entities/user.entity';
-
-export class ActivityResponse {
-  @ApiProperty({
-    example: 1,
-    description: 'Id do ramo de atividades',
-  })
-  id: number;
-
-  @ApiProperty({
-    example: 'Comércio',
-    description: 'Nome do ramo de atividades',
-  })
-  name: string;
-}
+import { ActivityResponse } from 'src/modules/activities/api-response/activity.response';
 
 export class RegisterResponse {
   @ApiProperty({

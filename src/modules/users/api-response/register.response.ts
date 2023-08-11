@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BidStatus } from 'src/entities/bid.entity';
 import { OrderStatus } from 'src/entities/order.entity';
 import { UserRole } from 'src/entities/user.entity';
-import { ActivityResponse } from 'src/modules/auth/api-response/register.response';
+import { ActivityResponse } from 'src/modules/activities/api-response/activity.response';
 
 export class OrderResponse {
   @ApiProperty({
