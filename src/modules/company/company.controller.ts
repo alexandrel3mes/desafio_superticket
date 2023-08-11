@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -27,6 +29,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetOrdersReponse } from '../orders/api-response/get-orders.response.dto';
+import { CreateOrderReponse } from '../orders/api-response/create-order.response.dto';
+import { EndOrderReponse } from '../orders/api-response/end-order.response.dto';
+import { BidResponse } from '../bids/api-response/get-bid.response';
 
 @ApiBearerAuth()
 @ApiTags('Company - Empresa')
@@ -55,11 +60,31 @@ export class CompanyController {
     return this.orderService.findYours(req.user);
   }
 
+  @ApiOperation({
+    summary: 'Rota para criar ordem de serviço',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Ordem criada',
+    type: CreateOrderReponse,
+  })
   @Post('order')
   createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto, req.user);
   }
 
+  @ApiOperation({
+    summary: 'Rota para editar ordem de serviço',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Ordem editada',
+    type: CreateOrderReponse,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Só é possível editar suas próprias ordens de serviço.',
+  })
   @Patch('order/:id')
   async edit(
     @Param() params: FindByIdDto,
@@ -75,6 +100,18 @@ export class CompanyController {
     return this.orderService.update(params.id, dto);
   }
 
+  @ApiOperation({
+    summary: 'Rota para finalizar ordem de serviço',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Ordem finalizada',
+    type: EndOrderReponse,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Só é possível finalizar ordens com status em progresso.',
+  })
   @Patch('finish_order/:id')
   async finish(@Param() params: FindByIdDto, @Req() req: any) {
     await this.companyService.checkOrderBeforePatch(req.user, params.id, true);
@@ -83,12 +120,32 @@ export class CompanyController {
     });
   }
 
+  @ApiOperation({
+    summary: 'Rota para aceitar uma oferta',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Oferta aceita',
+    type: BidResponse,
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'Só é possível aceitar ou negar ofertas de suas próprias ordens de serviço.',
+  })
   @Patch('bid/:id')
   async acceptOrDenyBid(
     @Param() params: FindByIdDto,
     @Req() req: any,
     @Body() dto: PatchBidDto,
   ) {
+    if (dto.action === BidStatus.CREATED) {
+      throw new HttpException(
+        'Só é possível aceitar ou negar ofertas nessa rota',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     await this.companyService.checkBidBeforePatch(req.user, params.id);
 
     if (dto.action === BidStatus.ACCEPTED) {

@@ -22,6 +22,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetOrdersReponse } from './api-response/get-orders.response.dto';
+import { GetOrderReponse } from './api-response/get-order.response.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -50,7 +51,15 @@ export class OrdersController {
     return this.ordersService.findAll();
   }
 
-  @ApiExcludeEndpoint(true)
+  @ApiTags('Orders - Ordem de serviço')
+  @ApiOperation({
+    summary: 'Rota para exibir detalhes da ordem de serviço',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Ordem de serviço',
+    type: GetOrderReponse,
+  })
   @Get(':id')
   findOne(@Param() params: FindByIdDto) {
     return this.ordersService.findOne(+params.id);
