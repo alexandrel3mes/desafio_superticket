@@ -1,6 +1,14 @@
-import { IsInt, IsOptional, IsPositive } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsPositive,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class UpdateOrderDto {
+  @IsString()
+  @MinLength(3)
   description?: string;
 
   @IsInt()

@@ -29,6 +29,7 @@ export class RegisterResponse {
 
   @ApiProperty({
     example: UserRole.ADMIN,
+    enum: UserRole,
     description: 'role do usuário criado',
   })
   role: string;

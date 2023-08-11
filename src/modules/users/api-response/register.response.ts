@@ -19,6 +19,7 @@ export class OrderResponse {
 
   @ApiProperty({
     example: OrderStatus.CREATED,
+    enum: OrderStatus,
     description: 'Status da ordem de serviço',
   })
   status: OrderStatus;
@@ -39,6 +40,7 @@ export class BidResponse {
 
   @ApiProperty({
     example: BidStatus.CREATED,
+    enum: BidStatus,
     description: 'Status da ordem de serviço',
   })
   status: BidStatus;
@@ -77,6 +79,7 @@ export class MeResponse {
 
   @ApiProperty({
     example: UserRole.ADMIN,
+    enum: UserRole,
     description: 'role do usuário',
   })
   role: UserRole;
