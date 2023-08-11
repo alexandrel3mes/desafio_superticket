@@ -26,6 +26,12 @@ export class UsersController {
     return this.usersService.findOne(req.user);
   }
 
+  @ApiOperation({ summary: 'Rota para editar suas informações de usuário' })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuário editado',
+    type: MeResponse,
+  })
   @Patch('edit_me')
   update(@Req() req: any, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(req.user, updateUserDto);
